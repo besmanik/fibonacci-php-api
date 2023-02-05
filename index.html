@@ -1,0 +1,64 @@
+<html>
+
+<head>
+
+</head>
+
+<body style="margin: 30px;">
+
+    <form>
+        <div style="margin-bottom: 30px;">
+            Please, input Fibonacci sequence
+            <br>
+            Example -  1,2,3,5,8,13 ...
+        </div>
+        <input type="text" id="txtSequence" placeholder="Sequence" value="" autocomplete="off">
+        <input type="button" id="btnSequence" value="Send data" onclick="checkSequence()">
+
+        <h3 id="h3Hint" style="color: red;"></h3>
+        <h3 id="h3Result" style="color: green;"></h3>
+    </form>
+
+</body>
+
+<script>
+
+    //Execute a function when the user presses a Enter key on the keyboard
+    var sequence_input = document.getElementById("txtSequence");
+    sequence_input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("btnSequence").click();
+        }
+    });
+
+    function checkSequence() {
+
+        var sequence = document.getElementById("txtSequence").value;
+        document.getElementById("h3Result").innerHTML = "";
+
+        if (!sequence.length){
+
+            document.getElementById("h3Hint").innerHTML = "Please, input sequence";
+            return;
+
+        } else {
+
+            document.getElementById("h3Hint").innerHTML = "";
+            var xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("h3Result").innerHTML = "Result: " + this.responseText;
+                }
+            };
+
+            xmlhttp.open("GET","check_sequence.php ? sequence="+sequence,true);
+            xmlhttp.send();
+
+        }
+
+    }
+</script>
+
+</html> 
